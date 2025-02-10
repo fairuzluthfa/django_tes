@@ -12,4 +12,10 @@ from datetime import datetime
 class Nodes_viewset(viewsets.ModelViewSet):
     queryset=nodes_model.objects.all()
     serializer_class=nodes_serializer
-    
+    lookup_field='node_id'
+
+    # @action(detail=True,methods=['post'])
+    # def upload_data(self,request,device_id=None):
+    #     try:
+    #         device=self.get_object()
+    #         nodes=nodes_model()

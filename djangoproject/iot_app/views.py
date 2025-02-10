@@ -54,7 +54,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def all_data(self, request, device_id=None):
         device = self.get_object()
-        sensor_data = device.sensor_data.all()
+        sensor_data = device.sensor_data1.all()
 
         # Get query parameters for date filtering
         start_date = request.query_params.get('start_date')  # e.g., "2025-02-01T00:00:00"

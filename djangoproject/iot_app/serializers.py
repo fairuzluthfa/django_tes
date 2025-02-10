@@ -13,5 +13,5 @@ class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model=Device
         # fields='__all__'
-        # fields=['id','device_id','name','status','last_seen','sensor_data1']
-        fields=['id','__all__']
+        fields=['id','device_id','name','status','last_seen','sensor_data1']
+        # fields=['id','__all__']
