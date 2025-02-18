@@ -12,7 +12,7 @@ class Device(models.Model):
         return self.name
     
 class SensorData(models.Model):
-    device=models.ForeignKey(Device,on_delete=models.CASCADE,related_name='sensor_data1')
+    devices=models.ForeignKey(Device,on_delete=models.CASCADE,related_name='sensor_data1')
     temperature=models.FloatField()
     humidity=models.FloatField()
     timestamp=models.DateTimeField(auto_now_add=True)

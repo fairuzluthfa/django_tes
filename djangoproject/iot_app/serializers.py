@@ -4,8 +4,10 @@ from rest_framework import serializers
 class SensorDataSerializer(serializers.ModelSerializer):
     class Meta:
         model=SensorData
-        # fields='__all__'
-        fields=['id','temperature','humidity','timestamp']
+        fields='__all__'
+        # excludes=['timestamp']
+        # fields=['id','temperature','humidity','timestamp']
+
 
 class DeviceSerializer(serializers.ModelSerializer):
     sensor_data1 = SensorDataSerializer(many=True, read_only=True, required=False)

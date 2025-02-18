@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework import viewsets,status
-from rest_framework.decorators import action
+from rest_framework.decorators import action,api_view
 from rest_framework.response import Response
 from iot_app.models import Device,SensorData
 from iot_app.serializers import DeviceSerializer,SensorDataSerializer
 from datetime import datetime
+from django.shortcuts import get_object_or_404
 
 
 # GET /api/devices/ - List all devices
@@ -24,8 +25,9 @@ class DeviceViewSet(viewsets.ModelViewSet):
     def upload_data(self, request, device_id=None):
         try:
             device = self.get_object()
+            print(device)
             sensor_data = SensorData(
-                device=device,
+                devices=device,
                 temperature=request.data.get('temperature'),
                 humidity=request.data.get('humidity')
             )
@@ -37,7 +39,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
     @action (detail=True,methods=['get'])
     def latest_data(self,request,device_id=None):
         device=self.get_object()
-        sensor_data=device.sensor_data.first()
+        sensor_data=device.sensor_data1.first()
         if sensor_data:
             return Response(SensorDataSerializer(sensor_data).data)
         return Response({'message':'No data available'},status=status.HTTP_404_NOT_FOUND)
@@ -84,3 +86,14 @@ class DeviceViewSet(viewsets.ModelViewSet):
 
     # GET /iot/devices/tes1/all_data/?start_date=2025-02-01T00:00:00&end_date=2025-02-03T23:59:59
 
+
+@api_view(['GET'])
+def unique(request):
+    try:
+        device_names = Device.objects.filter(name='tes2_').first() 
+        if device_names: 
+            return Response({'data': device_names}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'No device found with name "tes2_"'}, status=status.HTTP_404_NOT_FOUND) 
+    except Exception as e:
+        return Response({'err': str(e)}, status=status.HTTP_400_BAD_REQUEST)
